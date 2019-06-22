@@ -10,16 +10,17 @@ import './App.css';
 import { Container } from './components/Grid';
 
 class App extends React.Component{
+    //score and pics are the main state to be handled in this app
   state = {
     gameScore : 0 ,
-    imagesList: pics,
+    imagesObj: pics,
   }
-
+  //shuffles pics
   shuffle = () => {
-    let imgArr = shuffleArray(this.state.imagesList);
-    this.setState({imagesList: imgArr});
+    let tempArray = shuffleArray(this.state.imagesObj);
+    this.setState({imagesObj: tempArray});
   }
-
+  //ups the game score when unclicked pic is clicked
   incrementScore = () => {
     this.setState({ gameScore: this.state.gameScore + 1 });
   };
@@ -28,26 +29,30 @@ class App extends React.Component{
       this.setState({gameScore: 0})
   }
   clickHandler = () => {
-    console.log(this.clicked)
+    // console.log(this.clicked)    
     if(this.clicked)
       {
         
         this.resetScore(); 
-        let imgArray = this.state.imagesList;
+        let imgArray = this.state.imagesObj;
         imgArray.forEach = img => img.clicked = false;
-        this.setState({imagesList : imgArray});
+        this.setState({imagesObj : imgArray});
         this.shuffle();
       }
       else
       {
-        console.log(this.state.gameScore)
-        // let imgArray = this.state.imagesList;
+        // console.log(this.state.gameScore)
+        let imgArray = this.state.imagesObj;
         this.incrementScore();
         this.shuffle();
         this.clicked = true;
-        let imgArray = this.state.imagesList;
         
-        imgArray.forEach = img => console.log(img.clicked);
+        imgArray.forEach = img => {
+            if(img.clicked){
+                console.log(img.clicked);
+                console.log(img.id)
+            }
+        }
       }
 
   }
@@ -59,7 +64,7 @@ class App extends React.Component{
         <Nav gameScore={this.state.gameScore}/>
         <Container>
         <Wrapper>
-            { this.state.imagesList.map((image) => (
+            { this.state.imagesObj.map((image) => (
                 <PicDiv
                 key = {image.id}   
                 id = {image.id}          
